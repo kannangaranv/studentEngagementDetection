@@ -60,7 +60,13 @@ const VisualizationPage = ({ token }) => {
 
             // Generate timestamp for each heart rate point
             const timestamp = new Date(intervalStart + index * intervalDuration);
-            heartRateTimestamps.push(timestamp.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", second: "2-digit" }));
+            heartRateTimestamps.push(
+              timestamp.toLocaleTimeString("en-US", {
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+              })
+            );
           });
         });
 
@@ -78,12 +84,12 @@ const VisualizationPage = ({ token }) => {
   }, [token]);
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>Stress and Heart Rate Visualization</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+    <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
+      <h2 style={{ textAlign: "center", color: "#333" }}>Stress and Heart Rate Visualization</h2>
+      {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
 
-      <div>
-        <h3>Stress Score</h3>
+      <div style={{ margin: "20px 0" }}>
+        <h3 style={{ textAlign: "center", color: "#555" }}>Stress Score</h3>
         <Line
           data={{
             labels: stressLabels,
@@ -99,6 +105,15 @@ const VisualizationPage = ({ token }) => {
           }}
           options={{
             responsive: true,
+            plugins: {
+              legend: {
+                position: "top",
+              },
+              title: {
+                display: true,
+                text: "Stress Score Over Time",
+              },
+            },
             scales: {
               x: {
                 title: { display: true, text: "Time" },
@@ -111,8 +126,8 @@ const VisualizationPage = ({ token }) => {
         />
       </div>
 
-      <div>
-        <h3>Heart Rate</h3>
+      <div style={{ margin: "20px 0" }}>
+        <h3 style={{ textAlign: "center", color: "#555" }}>Heart Rate</h3>
         <Line
           data={{
             labels: heartRateLabels,
@@ -128,6 +143,15 @@ const VisualizationPage = ({ token }) => {
           }}
           options={{
             responsive: true,
+            plugins: {
+              legend: {
+                position: "top",
+              },
+              title: {
+                display: true,
+                text: "Heart Rate Over Time",
+              },
+            },
             scales: {
               x: {
                 title: { display: true, text: "Time" },

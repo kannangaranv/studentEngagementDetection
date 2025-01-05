@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import "./LoginPage.css"; // Link to external CSS for styling
 
 const LoginPage = ({ onLogin }) => {
   const [username, setUsername] = useState("");
@@ -21,22 +22,32 @@ const LoginPage = ({ onLogin }) => {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>Login</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <input
-        type="text"
-        placeholder="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button onClick={handleLogin}>Login</button>
+    <div className="login-container">
+      <div className="login-box">
+        <h2 className="login-title">Sign In</h2>
+        {error && <p className="login-error">{error}</p>}
+        <div className="login-field">
+          <input
+            type="text"
+            className="login-input"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
+        <div className="login-field">
+          <input
+            type="password"
+            className="login-input"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <button className="login-button" onClick={handleLogin}>
+          Login
+        </button>
+      </div>
     </div>
   );
 };
