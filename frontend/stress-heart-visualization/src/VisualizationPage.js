@@ -15,7 +15,7 @@ import {
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-const VisualizationPage = ({ token }) => {
+const VisualizationPage = ({ token,expiry,refresh }) => {
   const [stressData, setStressData] = useState([]);
   const [stressLabels, setStressLabels] = useState([]); // Labels for stress scores
   const [heartRateData, setHeartRateData] = useState([]); // Heart rates as individual points
@@ -25,8 +25,26 @@ const VisualizationPage = ({ token }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+      // if token is expire by checking now time and expiry time
+      const now = new Date();
+      const expiryTime = new Date(expiry);
+      if (now > expiryTime) {
+        // if token is expire then get new token by using refresh token
+        const res = await axios.post("https://api.hcgateway.shuchir.dev/api/v2/refresh", {
+          refresh: refresh,
+        });
+
+        token = res.data.token;
+        expiry = res.data.expiry;
+        refresh = res.data.refresh;
+        localStorage.setItem("authToken", token);
+        localStorage.setItem("expiry", expiry);
+        localStorage.setItem("refresh", refresh);
+      }
+
+
         const response = await axios.post(
-          "http://localhost:8080/api/fetchHeartRateAndStressScore",
+          "http://localhost:8081/api/fetchHeartRateAndStressScore",
           {
             startTime: "2024-12-07T18:30:00Z",
             endTime: "2024-12-07T19:14:09.744Z",

@@ -14,8 +14,12 @@ const LoginPage = ({ onLogin }) => {
         password,
       });
       const { token } = response.data;
+      const {expiry} = response.data;
+      const {refresh} = response.data;
       localStorage.setItem("authToken", token);
-      onLogin(token);
+      localStorage.setItem("expiry", expiry);
+      localStorage.setItem("refresh", refresh);
+      onLogin(token, expiry, refresh);
     } catch (err) {
       setError("Login failed. Please check your credentials.");
     }
